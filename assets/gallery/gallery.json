@@ -1,0 +1,44 @@
+{
+  "dnarendering_010_00008": {
+    "checkpoint": "checkpoints/ARGAvatar-Final.pth",
+    "mesh_render": "mesh_loop01_000325-000436_p3.70s.mp4",
+    "motion": "assets/example_motion/woman_dance_2_loop01.pth",
+    "orbit_frames": 72,
+    "views": [
+      "010_00008_0034__input_images__0000.png",
+      "010_00008_0054__input_images__0001.png",
+      "010_00008_0079__input_images__0002.png",
+      "010_00008_0099__input_images__0003.png",
+      "010_00008_0124__input_images__0004.png",
+      "010_00008_0149__input_images__0005.png"
+    ]
+  },
+  "dnarendering_048_00008": {
+    "checkpoint": "checkpoints/ARGAvatar-Final.pth",
+    "mesh_render": "mesh_loop02_001168-001281_p3.77s.mp4",
+    "motion": "assets/example_motion/woman_dance_2_loop02.pth",
+    "orbit_frames": 72,
+    "views": [
+      "048_00008_0030__input_images__0000.png",
+      "048_00008_0065__input_images__0001.png",
+      "048_00008_0105__input_images__0002.png",
+      "048_00008_0140__input_images__0003.png",
+      "048_00008_0180__input_images__0004.png",
+      "048_00008_0220__input_images__0005.png"
+    ]
+  },
+  "dnarendering_165_00008": {
+    "checkpoint": "checkpoints/ARGAvatar-Final.pth",
+    "mesh_render": "mesh_loop04_009137-009287_p5.00s.mp4",
+    "motion": "assets/example_motion/woman_dance_2_loop04.pth",
+    "orbit_frames": 72,
+    "views": [
+      "165_00008_0003__input_images__0000.png",
+      "165_00008_0043__input_images__0001.png",
+      "165_00008_0088__input_images__0002.png",
+      "165_00008_0133__input_images__0003.png",
+      "165_00008_0178__input_images__0004.png",
+      "165_00008_0223__input_images__0005.png"
+    ]
+  }
+}

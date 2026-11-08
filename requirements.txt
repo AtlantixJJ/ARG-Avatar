@@ -1,0 +1,65 @@
+# Python 3.12, PyTorch 2.5.1 / CUDA 12.1. Paths are relative to the repository root.
+#
+# The vendored CUDA extensions import torch while pip prepares their metadata,
+# so install PyTorch and the build tools first, then this whole file with
+# --no-build-isolation (scripts/install_argavatar_env.sh does both):
+#   python -m pip install --extra-index-url https://download.pytorch.org/whl/cu121 \
+#       torch==2.5.1+cu121 torchvision==0.20.1+cu121 "setuptools<81" wheel ninja
+#   python -m pip install --no-build-isolation -r requirements.txt
+--extra-index-url https://download.pytorch.org/whl/cu121
+# Kaolin (temporal motion fitting, strategies s3/s4) comes from NVIDIA's wheel
+# index for the pinned PyTorch/CUDA build, not PyPI's placeholder.
+--find-links https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.5.1_cu121.html
+
+# --- PyTorch and build tools (legacy extension code uses pkg_resources) ---
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
+setuptools<81
+wheel
+ninja
+
+# --- Python packages ---
+accelerate
+addict
+braceexpand
+# Keep the model APIs compatible with the released checkpoint and PyTorch 2.5.
+diffusers==0.40.0
+einops
+gradio==6.26.0
+huggingface_hub
+jaxtyping
+kaolin==0.18.0
+lpips
+matplotlib
+mhr==1.0.1
+numpy
+omegaconf
+open3d
+opencv-python
+pillow
+pillow-heif
+pytorch_lightning
+pyyaml
+roma
+safetensors
+scipy
+seaborn
+timm
+tqdm
+transformers==5.16.1
+trimesh
+wandb
+yacs
+
+# --- Vendored CUDA extensions (built against the installed PyTorch) ---
+./thirdparty/sam2
+./thirdparty/simple-knn
+./thirdparty/diff-gaussian-rasterization-da
+
+# --- Pinned sources with no compatible PyPI release ---
+nvdiffrast @ git+https://github.com/NVlabs/nvdiffrast.git@253ac4fcea7de5f396371124af597e6cc957bfae
+# Person detection and field-of-view estimation for user images/videos. MoGe
+# pins its utils3d and pipeline source dependencies upstream; the similarly
+# named PyPI packages are different projects.
+detectron2 @ git+https://github.com/facebookresearch/detectron2.git@a1ce2f956a1d2212ad672e3c47d53405c2fe4312
+moge @ git+https://github.com/microsoft/MoGe.git@07444410f1e33f402353b99d6ccd26bd31e469e8

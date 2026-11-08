@@ -1,0 +1,16 @@
+# The one model this release ships.
+#
+# Bare names: manager.py::resolve_jobs maps each to configs/<name>.yaml and picks
+# the newest expr/<name>/PT_*.pth by mtime, falling back to checkpoints/<name>.pth.
+#
+# Run it with (from the repo root, PYTHONPATH empty):
+#   python evaluation/argavatar/eval_argavatar.py \
+#     --config configs/<name>.yaml \
+#     --checkpoint_path checkpoints/<name>.pth \
+#     --data_config configs/_shared/data_val_list.yaml \
+#     --eval_views 1 2 3 4 6
+#
+# Every cell is recomputed by default; --skip_existing is the opt-in that serves
+# already-computed samples from disk. Do not pass it for a comparable table.
+EVAL_JOBS:
+  - ARGAvatar-Final

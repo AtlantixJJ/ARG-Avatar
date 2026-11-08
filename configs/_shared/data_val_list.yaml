@@ -1,0 +1,14 @@
+data:
+  val:
+    class_name: "xlib.dataset.simple.ConcatDataset"
+    ds_keys: ["Neuman"]
+    ds_list:
+      - class_name: "xlib.dataset.sam3d_image_dataset.SAM3DImageDataset"
+        root_dir: "data/AnimatableHuman/Rendering/NeuMan"
+        hierarchy_file: "val_hierarchy.json"
+        image_list: "expr/val_lists/Neuman_val_list.yaml"
+        input_size: [512, 512]
+        allow_cross_pose: true
+        default_fov: 60.0
+        num_input_views: 6
+        num_sup_views: -1

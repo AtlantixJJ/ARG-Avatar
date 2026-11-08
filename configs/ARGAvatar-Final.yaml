@@ -1,0 +1,131 @@
+# Final ARGAvatar checkpoint: base MV-UV-RNU-HR-FACRoPE-None-L2-PoseDep-
+# TokenCascade-SH1-DS run, step 80000. Does not include the later Fix-HandReg
+# training-recipe change (which restarted training and had not yet reached
+# this step count); see README.md's Checkpoints section.
+project_name: ARGAvatar-Final
+base_configs:
+  - _shared/data_val_list.yaml
+  - _shared/sam3dbody_default.yaml
+
+training:
+  use_memeff: true
+  find_unused_parameters: false
+  batch_size: 1
+  num_input_views: 6
+  num_sup_views: 6
+  shuffle: true
+  gradient_accumulation_steps: 2
+  mixed_precision: bf16
+  max_train_steps: 100000
+  visualize_interval: 1000
+  validate_interval: 1000
+  checkpoint_interval: 1000
+  num_workers: 1
+  val_num_workers: 1
+  use_wandb: true
+  output_dir: expr/
+  lr: 1e-5
+  weight_decay: 1e-4
+  n_val_sample: 1000
+  n_val_sup_views: 16
+  include_self_reconstruction: true
+  cross_pose_weight: 1.0
+  self_recon_weight: 1.0
+  lr_scheduler:
+    name: cosine
+    lr_warmup_steps: 50
+  enable_profiling: false
+  profiling_print_interval: 100
+  use_hr_render: true
+
+model:
+  class_name: xlib.model.arg_net_uv_token_cascade.ARGNetUVTokenCascade
+  load_checkpoint: checkpoints/ARGAvatar-Final.pth
+  gaussian_type: 3d
+  avatar:
+    return_intermediate_results: true
+    use_gradient_checkpointing: false
+    mhr:
+      mhr_lod: 1
+    uv:
+      uv_fbx_path: mesh_exports/mhr_mesh_lod1.fbx
+      uv_size: 512
+      uv_token_size: 64
+      patch_size: 8
+      decoder_type: resnet_unpatchify
+      decoder_upsample_factor: 8
+      encoding_mode: connected_components
+      use_patch_mask: true
+      component_scale_factors:
+        face: 1.0
+        body: 2.0
+        right_hand: 0.5
+        left_hand: 0.5
+        right_leg: 2.0
+        left_leg: 2.0
+        right_arm: 2.0
+        left_arm: 2.0
+        right_foot_upper: 2.0
+        left_foot_upper: 2.0
+        right_foot_lower: 2.0
+        left_foot_lower: 2.0
+    use_token_gs: true
+    shared_token_head: true
+    token_offset_max_step: 0.5
+    pose_dep:
+      mlp_depth: 2
+      token_proj_mlp_depth: 2
+      pixel_offset_max_step: 0.05
+      token_offset_max_step: 0.5
+      deform_shape: true
+    UV_token_cond:
+      normal: true
+      lbs: false
+      neutral_anchor: true
+      neutral_avatar: true
+    multimodal_avatar_transformer:
+      embed_dim: 1024
+      cond_dim: 1024
+      depth: 2
+      num_heads: 16
+      mlp_ratio: 4.0
+      drop_path_rate: 0.1
+      dropout: 0.1
+      rope_theta: 10000.0
+      token_to_image_attn_type: fac-rope # naive | animation-rope | projection
+      sa3d_type: none # none | animation-rope | canonical-rope
+      
+    avatar_cond:
+      sources: [sam3d_backbone_image, hr_image]
+      uv_image_extractor: facebook/dinov3-convnext-tiny-pretrain-lvd1689m
+      uv_image_input_size: 1024
+      uv_image_extractor_trainable: true
+    gs_layer:
+      n_layers: 0 # direct decode from input features
+      in_channels: 23
+      hidden_channels: 0 # not used
+      sh_degree: 1
+      xyz_offset_max_step: 0.05
+      fix_opacity: true
+      fix_rotation: false
+      isotropic_gaussians: false
+      scale_base_factor: 2.0
+dataset:
+  hr_image_size: [1024, 1024]
+loss:
+  loss_l1: 0.8
+  loss_ssim: 0.2
+  loss_lpips: 1.0
+  loss_mask: 0.5
+  loss_face: 1.0
+  face_render_size: 512
+  loss_canonical_animation: 0.5
+  loss_uv_smooth: 1e-4
+  loss_offset_reg: 0.1 # the square sum of offset_xyz: the amount of canonical deformation should be as small as possible
+  loss_offset_norm: 0.1 # the squared sum of offset_xyz and offset_pose needs to be smooth: the amount of canonical and posed deformation is smoothed
+  loss_poseoffset_reg: 1.0 # the square sum of offset_pose: the amount of posed deformation should be as small as possible
+  loss_pose_shell_transfer: 0.001 # transfer detached shared pose-offset shell into canonical offsets
+  loss_token_pose_strain: 1.0 # relative mesh edge-length strain on vertex-lifted token pose deformation
+  loss_agg_pixel_gs_reg: 1.0 # the pixel offset and pixel offset pose should be as small as possible on a patch-basis, so that the deformation can be shifted to token offset
+  loss_normal_direction_reg: 0.1
+  loss_scale_reg: 1.0

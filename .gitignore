@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+build/
+.build-tmp/
+.pip-cache/
+wandb/
+logs/
+/tests/
+SAM3DGS
+
+# Datasets: local symlinks to dataset roots; users recreate them (see README).
+data/*
+!data/.gitkeep
+
+# Third-party weights: never committed. Fetch with scripts/download_weights.sh.
+pretrained_models/*
+!pretrained_models/.gitkeep
+thirdparty/sam2/checkpoints/*.pt
+
+# ARGAvatar's own weights: not committed either (1.6 GB). Fetch with
+checkpoints/*.pth
+expr/
+*.egg-info/
+*.egg-info
+
+
+# The paper PDF is kept locally, not committed.
+main.pdf

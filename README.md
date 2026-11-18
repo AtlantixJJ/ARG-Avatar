@@ -8,10 +8,8 @@
 
 <sup>1</sup>Carnegie Mellon University &nbsp;&nbsp;
 
-[![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg)](#)
+[![arXiv](https://img.shields.io/badge/arXiv-2611.22207-b31b1b.svg)](https://arxiv.org/abs/2611.22207)
 [![Project Page](https://img.shields.io/badge/Project-Page-5d98c4.svg)](https://atlantixjj.github.io/ARG-Avatar/)
-
-<!-- TODO: update the arXiv link once public, and update §4 Citation. -->
 
 ARG-Avatar reconstructs animatable 3D Gaussian avatars from several casual photos or frames of a monocular video, in a single feed-forward pass.
 It consists of merely 68M trainable parameters and is trained with public data only, yet surpasses baselines trained with 10x more training compute.
@@ -337,9 +335,13 @@ In-the-wild inputs require person detection, segmentation and FOV estimation whi
 If you find this work useful, please cite:
 ```bibtex
 @misc{xu2026argavatar,
-  title  = {{ARG-Avatar}: Animation-Rendering Guidance for Efficient Feedforward Avatar Reconstruction},
-  author = {Xu, Jianjin and Dasgupta, Soham and De la Torre, Fernando},
-  year   = {2026}
+      title={ARG-Avatar: Animation-Rendering Guidance for Efficient Feedforward Avatar Reconstruction}, 
+      author={Jianjin Xu and Soham Dasgupta and Fernando De la Torre},
+      year={2026},
+      eprint={2611.22207},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2611.22207}, 
 }
 ```
 
